@@ -19,10 +19,10 @@ client = bigquery.Client(credentials=credentials)
 
 def usuarios_activador(Qr):
     activadores = f"""
-    SELECT EXTRACT(DATE FROM timestamp) AS fecha, COUNT(distinct Number) AS usuarios
+    SELECT EXTRACT(DATE FROM TIMESTAMP_ADD(timestamp, INTERVAL -6 HOUR)) AS fecha, COUNT(distinct Number) AS usuarios
     FROM parkimovil-app.geosek_guest.autoregistro 
     WHERE qr = '{Qr}'
-    GROUP BY EXTRACT(DATE FROM timestamp)
+    GROUP BY EXTRACT(DATE FROM TIMESTAMP_ADD(timestamp, INTERVAL -6 HOUR)) 
     ORDER BY fecha
     """
 
@@ -36,10 +36,10 @@ df_qr_activadores = usuarios_activador(qr_seleccionada)
 
 def operaciones_activador(Qr):
     operaciones = f"""
-    SELECT EXTRACT(DATE FROM timestamp) AS fecha, COUNT(*) AS operaciones
+    SELECT EXTRACT(DATE FROM TIMESTAMP_ADD(timestamp, INTERVAL -6 HOUR)) AS fecha, COUNT(*) AS operaciones
     FROM parkimovil-app.geosek_guest.autoregistro 
     WHERE qr = '{Qr}'
-    GROUP BY EXTRACT(DATE FROM timestamp)
+    GROUP BY EXTRACT(DATE FROM TIMESTAMP_ADD(timestamp, INTERVAL -6 HOUR)) 
     ORDER BY fecha
     """
     df_operaciones_activador = client.query(operaciones).to_dataframe()
@@ -110,7 +110,7 @@ fig_operaciones_indicador = go.Figure(go.Indicator(
     mode="number",
     value=df_operaciones_activador['operaciones'].sum(),
     domain={'x': [0, 1], 'y': [0, 1]},
-    title={'text': "Usuarios Diferentes", 'font': {'color': "black"}, 'align': 'center'}
+    title={'text': "Operaciones Diferentes", 'font': {'color': "black"}, 'align': 'center'}
 ))
 fig_operaciones_indicador.update_layout(
     paper_bgcolor="rgba(0,0,0,0)",  # Fondo transparente
