@@ -3,9 +3,6 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 from google.cloud import bigquery
-from datetime import datetime, timedelta
-import plotly.express as px
-from statsmodels.tsa.arima.model import ARIMA
 from google.oauth2 import service_account
 
 
