@@ -7,3 +7,4 @@ xlrd
 python-dotenv
 db-dtypes
 xlsxwriter
+plotly
