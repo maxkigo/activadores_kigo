@@ -110,7 +110,7 @@ fig_operaciones_indicador = go.Figure(go.Indicator(
     mode="number",
     value=df_operaciones_activador['operaciones'].sum(),
     domain={'x': [0, 1], 'y': [0, 1]},
-    title={'text': "Operaciones Diferentes", 'font': {'color': "black"}, 'align': 'center'}
+    title={'text': "Operaciones", 'font': {'color': "black"}, 'align': 'center'}
 ))
 fig_operaciones_indicador.update_layout(
     paper_bgcolor="rgba(0,0,0,0)",  # Fondo transparente
