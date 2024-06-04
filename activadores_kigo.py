@@ -49,9 +49,9 @@ df_operaciones_activador = operaciones_activador(qr_seleccionada)
 
 if qr_seleccionada == 'EZU[':
     titulo = 'Pueblo Serena'
-elif qr_seleccionada == 'EZU(':
-    titulo = 'Punto Valle'
 elif qr_seleccionada == 'EZU{':
+    titulo = 'Punto Valle'
+elif qr_seleccionada == 'EZU(':
     titulo = 'Arboleda'
 elif qr_seleccionada == 'EZUJ':
     titulo = 'Solesta'
