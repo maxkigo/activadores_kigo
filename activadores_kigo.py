@@ -67,12 +67,10 @@ df_operaciones_activador = operaciones_activador(qr_seleccionada)
 @st.cache_data(ttl=3600)
 def registro_activador(Qr):
     registro = f"""
-    SELECT TIMESTAMP_ADD(A.timestamp, INTERVAL -6 HOUR) AS fecha, A.QR, P.alias AS plaza, A.nombre, A.number AS telefono, R.rank
+    SELECT TIMESTAMP_ADD(A.timestamp, INTERVAL -6 HOUR) AS fecha, A.QR, P.alias AS plaza, A.nombre, A.number AS telefono
     FROM parkimovil-app.geosek_guest.autoregistro A
     JOIN parkimovil-app.geosek_guest.plazas P
         ON  A.plaza = P.codigo
-    JOIN parkimovil-app.geosek_guest.batak_rank R
-        ON A.QR = R.qr
     WHERE A.qr = '{Qr}'
     ORDER BY fecha DESC
     """
