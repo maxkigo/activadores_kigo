@@ -67,7 +67,7 @@ df_operaciones_activador = operaciones_activador(qr_seleccionada)
 @st.cache_data(ttl=3600)
 def registro_activador(Qr):
     registro = f"""
-    SELECT TIMESTAMP_ADD(A.timestamp, INTERVAL -6 HOUR) AS fecha, A.QR, P.alias AS plaza, A.nombre, A.number AS telefono
+    SELECT TIMESTAMP_ADD(A.timestamp, INTERVAL -6 HOUR) AS fecha, A.QR,  A.nombre, A.number AS telefono
     FROM parkimovil-app.geosek_guest.autoregistro A
     JOIN parkimovil-app.geosek_guest.plazas P
         ON  A.plaza = P.codigo
@@ -79,6 +79,20 @@ def registro_activador(Qr):
     return df_registro_activador
 
 df_registro_activador = registro_activador(qr_seleccionada)
+
+@st.cache_data(ttl=3600)
+def score_activador(Qr):
+    registro = f"""
+    SELECT timestamp AS fecha, qr, name, user AS telefono, rank AS score
+    FROM parkimovil-app.geosek_guest.batak_rank
+    WHERE qr = '{Qr}'
+    ORDER BY fecha DESC
+    """
+
+    df_score_activador = client.query(registro).to_dataframe()
+    return df_score_activador
+
+df_score_activador = score_activador(qr_seleccionada)
 
 if qr_seleccionada == 'EZU[':
     titulo = 'Pueblo Serena'
@@ -207,5 +221,7 @@ with col3:
 with col4:
     st.plotly_chart(fig_operaciones, use_container_width=True)
 
-st.write(df_registro_activador)
+
+st.write(df_score_activador)
+
 st.plotly_chart(fig_heatmap, use_container_width=True)
