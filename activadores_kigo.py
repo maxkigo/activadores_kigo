@@ -22,7 +22,7 @@ def usuarios_activador(Qr):
     SELECT EXTRACT(DATE FROM TIMESTAMP_ADD(timestamp, INTERVAL -6 HOUR)) AS fecha, COUNT(distinct Number) AS usuarios
     FROM parkimovil-app.geosek_guest.autoregistro 
     WHERE qr = '{Qr}'
-    GROUP BY EXTRACT(DATE FROM TIMESTAMP_ADD(timestamp, INTERVAL -6 HOUR)) 
+    GROUP BY EXTRACT(DATE FROM TIMESTAMP_ADD(timestamp, INTERVAL -6 HOUR))  
     ORDER BY fecha
     """
 
@@ -82,7 +82,7 @@ fig_operaciones.add_trace(go.Bar(
 ))
 
 fig_operaciones.update_layout(
-    title= 'Operacones' + ' ' + titulo,
+    title= 'Operaciones' + ' ' + titulo,
     xaxis_title='Fecha',
     yaxis_title='Usuarios'
 )
@@ -135,5 +135,8 @@ with col1:
 with col2:
     st.plotly_chart(fig_operaciones_indicador, use_container_width=True)
 
-st.plotly_chart(fig_usuarios, use_container_width=True)
-st.plotly_chart(fig_operaciones, use_container_width=True)
+col3, col4 = st.columns(2)
+with col3:
+    st.plotly_chart(fig_usuarios, use_container_width=True)
+with col4:
+    st.plotly_chart(fig_operaciones, use_container_width=True)
